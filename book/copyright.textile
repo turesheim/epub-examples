@@ -1,0 +1,9 @@
+h1. Copyrights
+
+p. This book is Copyright &copy; 2011, 2012 by Torkild U. Resheim
+
+p. The EPUB 2.0.1 Specification  referenced to in this publication is Copyright &copy; 2007 by International Digital Publishing Forum(tm).
+
+p. The Dublin Core Specification referenced to in this publication is Copyright &copy; 1995-2011 DCMI. All Rights Reserved. Licensed under a Creative Commons Attribution 3.0 Unported License.
+
+p. The Ubuntu fonts used in this publication are Copyright &copy; 2010 Canonical Ltd.

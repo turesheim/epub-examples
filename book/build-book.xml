@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011,2012 Torkild U. Resheim and others
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+        Torkild U. Resheim - initial API and implementation
+ -->
+
+<project name="org.eclipse.mylyn.docs.epub.ui.docs" default="plugin-book">
+
+	<!-- Location of the user guide markup files -->
+	<property name="srcdir" location="${basedir}/../../org.eclipse.mylyn.docs.epub.help/docs" />
+	<!-- Location of EPUB related files -->
+	<property name="bookdir" location="${basedir}" />
+	<!-- Location of the finished EPUB -->
+	<property name="epubfile" location="${basedir}/Building_EPUBs.epub" />
+
+	<path id="wikitext.ant.classpath">
+		<pathelement location="../../org.eclipse.mylyn.wikitext.core/bin"/>
+		<pathelement location="../../org.eclipse.mylyn.wikitext.textile.core/bin"/>
+	</path>
+
+	<taskdef resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" classpathref="wikitext.ant.classpath"/>
+
+	<target name="init">
+
+		<delete file="${epubfile}" failonerror="false" />
+
+		<!-- Convert the Textile markup to HTML -->
+		<wikitext-to-html markupLanguage="org.eclipse.mylyn.wikitext.textile.core.TextileLanguage" 
+			overwrite="true" xhtmlstrict="true" >
+			<fileset dir="${srcdir}">
+				<include name="*.textile" />
+			</fileset>
+			<fileset dir="${basedir}">
+				<include name="*.textile" />
+			</fileset>
+			<stylesheet url="style.css" />
+		</wikitext-to-html>
+	</target>
+
+	<!-- contributor, date -->
+	<target name="plugin-book" depends="init">
+		
+		<epub identifierId="uuid" file="${epubfile}" workingfolder="${basedir}/build">
+			<language code="en" />
+			<identifier id="uuid" scheme="UUID">70ce7c20-8f9e-11e0-91e4-0800200c9a66</identifier>
+			<title>Building EPUBs with Eclipse</title>
+			<subject>Computing, Eclipse, Mylyn, EPUB</subject>
+			<publisher>Eclipse.Org</publisher>
+			<creator name="Torkild Ulvøy Resheim" fileAs="Resheim, Torkild Ulvøy" role="aut" />
+			<rights>Copyright (c) 2011, 2012 Torkild Ulvøy Resheim. 
+				Licensed under the Eclipse Public License version 1.0</rights>
+			<type>Technical article.</type>
+			<cover image="${basedir}/cover.jpg">Cover page</cover>
+			<item file="${basedir}/title-page.html" />
+			<item file="${basedir}/copyright.html" />
+			<item file="${srcdir}/introduction.html" />
+			<item file="${srcdir}/epub-format.html" />
+			<item file="${srcdir}/generate-ant.html" />
+			<item file="${srcdir}/generate-epub.html" />
+			<item file="${srcdir}/epub-ant-task.html" />
+			<item file="${srcdir}/examples.html" />
+			<item file="${basedir}/style.css" type="text/css" spine="false" />
+			<reference href="title-page.html" type="title-page" title="Building EPUBs with Eclipse" />
+			<reference href="introduction.html" type="preface" title="Introduction" />
+			<reference href="copyright.html" type="copyright-page" title="Copyright" />
+			<toc generate="true" />
+			<fileset dir="${srcdir}">
+				<include name="*.gif" />
+				<include name="*.png" />
+				<include name="*.jpg" />
+			</fileset>
+			<fileset dir="${basedir}">
+				<include name="*.ttf" />
+			</fileset>
+		</epub>
+		
+		
+		<!-- Delete generated files -->
+		<delete>
+			<fileset dir="${srcdir}" >
+				<include name="**/*.html"/>
+				<present targetdir="${srcdir}">
+					<mapper type="glob" from="*.html" to="*.textile" />
+				</present>
+			</fileset>
+			<fileset dir="${basedir}" >
+				<include name="**/*.html"/>
+				<present targetdir="${basedir}">
+					<mapper type="glob" from="*.html" to="*.textile" />
+				</present>
+			</fileset>
+		</delete>
+		<!-- Refresh project -->
+		<eclipse.refreshLocal resource="../" depth="infinite" />
+	</target>
+
+</project>
