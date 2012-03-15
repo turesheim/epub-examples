@@ -5,7 +5,7 @@ This project contains various examples for using the EPUB tooling in [Mylyn Docs
 <table>
 <tr><th>Example</th><th>Description</th></tr>
 <tr><td>simple</td><td>The most basic example</td></tr>
-<tr><td>book</td><td>Builds the EPUB tooling documentation as a book, Mylyn Docs must be present. This can be cloned from the GitHub repsository at https://github.com/turesheim/org.eclipse.mylyn.docs</td></tr>
+<tr><td>book</td><td>Builds the EPUB tooling documentation as a book, Mylyn Docs must be present. This can be cloned from the [GitHub repository](https://github.com/turesheim/org.eclipse.mylyn.docs)</td></tr>
 </table>
 
 ##License
