@@ -11,20 +11,30 @@
  -->
 
 <project name="org.eclipse.mylyn.docs.epub.ui.docs" default="plugin-book">
-
+	
+	
+  <property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
 	<!-- Location of the user guide markup files -->
-	<property name="srcdir" location="${basedir}/../../org.eclipse.mylyn.docs.epub.help/docs" />
+	<property name="srcdir" location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.help/docs" />
 	<!-- Location of EPUB related files -->
 	<property name="bookdir" location="${basedir}" />
 	<!-- Location of the finished EPUB -->
 	<property name="epubfile" location="${basedir}/Building_EPUBs.epub" />
 
-	<path id="wikitext.ant.classpath">
-		<pathelement location="../../org.eclipse.mylyn.wikitext.core/bin"/>
-		<pathelement location="../../org.eclipse.mylyn.wikitext.textile.core/bin"/>
+	<path id="classpath">
+		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.core/target/classes"/>
+		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.textile.core/target/classes"/>
+		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/target/classes"/>
+		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/target/classes"/>
+		<fileset dir="../lib/" includes="*.jar"/>
 	</path>
 
-	<taskdef resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" classpathref="wikitext.ant.classpath"/>
+	<path id="lib.classpath">
+		<fileset dir="../lib/" includes="*.jar"/>
+	</path>
+
+	<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="classpath"/>
+	<taskdef resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" classpathref="classpath"/>
 
 	<target name="init">
 
@@ -96,8 +106,6 @@
 				</present>
 			</fileset>
 		</delete>
-		<!-- Refresh project -->
-		<eclipse.refreshLocal resource="../" depth="infinite" />
 	</target>
 
 </project>
