@@ -5,8 +5,10 @@ This project contains various examples for using the EPUB tooling in [Mylyn Docs
 <table>
 <tr><th>Example</th><th>Description</th></tr>
 <tr><td>simple</td><td>The most basic example</td></tr>
-<tr><td>book</td><td>Builds the EPUB tooling documentation as a book, Mylyn Docs must be present. This can be cloned from the [GitHub repository](https://github.com/turesheim/org.eclipse.mylyn.docs)</td></tr>
+<tr><td>book</td><td>Builds the EPUB tooling documentation as a book. Mylyn Docs must be present.</td></tr>
 </table>
+
+Mylyn docs can be obtained from the [GitHub repository](https://github.com/turesheim/org.eclipse.mylyn.docs).
 
 ##License
 This software is released under the [Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html).
