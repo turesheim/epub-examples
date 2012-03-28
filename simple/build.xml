@@ -12,15 +12,25 @@
 <project name="EPUB Simple Example" basedir="." default="build">
 	
 	<property name="srcdir" location="${basedir}/../shared-content"/>
+	<property name="epub" location="EPUB Simple Example.epub"/>
 
-	<path id="classpath">
-		<fileset dir="../lib/" includes="*.jar"/>
-	</path>
+	
+	<!-- Load the EPUB task from the library unless Eclipse is running -->
+	<target name="setup" unless="eclipse.running">
+		<echo>Setting up EPUB task</echo>
+		<path id="classpath">
+			<fileset dir="../lib/" includes="*.jar"/>
+		</path>
+		<taskdef classpathref="classpath" resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" />
+	</target>
+	
+	<!-- Clean out the existing EPUB file if any -->
+	<target name="clean">
+		<delete file="${epub}" failonerror="false"/>
+	</target>
 
-	<taskdef classpathref="classpath" resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" />
-
-	<target name="build">
-		<epub file="EPUB Simple Example.epub">
+	<target name="build" depends="clean,setup">
+		<epub file="${epub}">
 			<title>EPUB Simple Example</title>
 			<subject>Lorem Ipsum</subject>
 			<item file="${srcdir}/chapter.xhtml" />
