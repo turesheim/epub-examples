@@ -11,26 +11,42 @@
 
 <project name="EPUB Simple Example" basedir="." default="build">
 	
+	<!-- Location of Mylyn Docs -->
+    <property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
+	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
+	
+	<!-- Location of the EPUB source content -->
 	<property name="srcdir" location="${basedir}/../shared-content"/>
-	<property name="epub" location="EPUB Simple Example.epub"/>
+
+	<!-- Location of the finished EPUB -->
+	<property name="epubfile" location="EPUB Simple Example.epub"/>
 
 	
 	<!-- Load the EPUB task from the library unless Eclipse is running -->
-	<target name="setup" unless="eclipse.running">
-		<echo>Setting up EPUB task</echo>
-		<path id="classpath">
+	<target name="setup-lib" unless="dev.present">
+		<path id="lib-classpath">
 			<fileset dir="../lib/" includes="*.jar"/>
 		</path>
-		<taskdef classpathref="classpath" resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" />
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
+	</target>
+
+	<!-- Load the EPUB task from the workspace if Eclipse is running -->
+	<target name="setup-dev" if="dev.present">
+		<path id="dev-classpath">
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
+			<fileset dir="../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
 	</target>
 	
 	<!-- Clean out the existing EPUB file if any -->
 	<target name="clean">
-		<delete file="${epub}" failonerror="false"/>
+		<delete file="${epubfile}" failonerror="false"/>
 	</target>
 
-	<target name="build" depends="clean,setup">
-		<epub file="${epub}">
+	<target name="build" depends="clean,setup-lib,setup-dev">
+		<epub file="${epubfile}">
 			<title>EPUB Simple Example</title>
 			<subject>Lorem Ipsum</subject>
 			<item file="${srcdir}/chapter.xhtml" />

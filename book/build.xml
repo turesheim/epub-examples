@@ -12,29 +12,43 @@
 
 <project name="org.eclipse.mylyn.docs.epub.ui.docs" default="plugin-book">
 	
-	
-  <property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
-	<!-- Location of the user guide markup files -->
+	<!-- Location of Mylyn Docs -->
+    <property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
+	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
+
+	<!-- Location of the EPUB source content -->
 	<property name="srcdir" location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.help/docs" />
+	
 	<!-- Location of EPUB related files -->
 	<property name="bookdir" location="${basedir}" />
+	
 	<!-- Location of the finished EPUB -->
 	<property name="epubfile" location="${basedir}/Building_EPUBs.epub" />
 
 	<path id="classpath">
 		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.core/target/classes"/>
 		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.textile.core/target/classes"/>
-		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/target/classes"/>
-		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/target/classes"/>
-		<fileset dir="../lib/" includes="*.jar"/>
 	</path>
 
-	<path id="lib.classpath">
-		<fileset dir="../lib/" includes="*.jar"/>
-	</path>
-
-	<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="classpath"/>
 	<taskdef resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" classpathref="classpath"/>
+
+	<!-- Load the EPUB task from the library unless Eclipse is running -->
+	<target name="setup-lib" unless="dev.present">
+		<path id="lib-classpath">
+			<fileset dir="../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
+	</target>
+
+	<!-- Load the EPUB task from the workspace if Eclipse is running -->
+	<target name="setup-dev" if="dev.present">
+		<path id="dev-classpath">
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
+			<fileset dir="../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
+	</target>
 
 	<target name="init">
 
@@ -54,7 +68,7 @@
 	</target>
 
 	<!-- contributor, date -->
-	<target name="plugin-book" depends="init">
+	<target name="plugin-book" depends="init,setup-lib,setup-dev">
 		
 		<epub identifierId="uuid" file="${epubfile}" workingfolder="${basedir}/build">
 			<language code="en" />
