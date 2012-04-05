@@ -1,5 +1,5 @@
 #EPUB Examples
-This project contains various examples for using the EPUB tooling in [Mylyn Docs](http://www.eclipse.org/mylyn/docs/). The examples have been designed to be executed in two ways, either using development versions of the code or using the libraries found in the *lib* folder. Which one to use is automatically detected. If *org.eclipse.mylyn.docs* is present parallell to *epub-examples* in the file system the prior method will be used.
+This project contains various examples for using the EPUB tooling in [Mylyn Docs](http://www.eclipse.org/mylyn/docs/). The examples have been designed to be executed in two ways: Either using development versions of the code, or using the libraries found in the *lib* folder. Which one to use is automatically detected. If the *org.eclipse.mylyn.docs* project is present parallel to *epub-examples* the prior method will be used.
 
 The basic examples can be executed simply by running Ant, others have some dependencies.
 
@@ -17,4 +17,4 @@ The generated EPUB's can be read using any EPUB supporting reading system such a
 This software is released under the [Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html).
 
 ##Copyright
-Copyright (c) 2011,2012 Torkild Ulvøy Resheim, All Rights Reserved.
+Copyright (c) 2011, 2012 Torkild Ulvøy Resheim, All Rights Reserved.
