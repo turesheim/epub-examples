@@ -25,7 +25,7 @@
 	<!-- Load the EPUB task from the library unless Eclipse is running -->
 	<target name="setup-lib" unless="dev.present">
 		<path id="lib-classpath">
-			<fileset dir="../lib/" includes="*.jar"/>
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
 		</path>
 		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
 	</target>
@@ -35,7 +35,7 @@
 		<path id="dev-classpath">
 			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
 			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
-			<fileset dir="../lib/" includes="*.jar"/>
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
 		</path>
 		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
 	</target>
