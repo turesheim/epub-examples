@@ -46,7 +46,11 @@ pre {
   -webkit-hyphens: none;
   hyphens: none;
   adobe-hyphenate: none;
-  border: 1px solid #eee;
+  border: #eee 1px solid;
+  background-color: #f7f7f7;
+  -moz-box-shadow: 5px 5px 5px #888;
+  -webkit-box-shadow: 5px 5px 5px #888;
+  box-shadow: 5px 5px 5px #888;
 }
 
 code {
