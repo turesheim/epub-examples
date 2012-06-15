@@ -50,10 +50,17 @@
 		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
 	</target>
 
-	<target name="init">
-
-		<delete file="${epubfile}" failonerror="false" />
-
+	<!-- Clean out the existing EPUB file if any -->
+	<target name="clean">
+		<delete file="${epubfile}" failonerror="false"/>
+		<delete>
+			<fileset dir="${basedir}/build">
+	    	<include name="**/*"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<target name="init" depends="clean">
 		<!-- Convert the Textile markup to HTML -->
 		<wikitext-to-html markupLanguage="org.eclipse.mylyn.wikitext.textile.core.TextileLanguage" 
 			overwrite="true" xhtmlstrict="true" >
