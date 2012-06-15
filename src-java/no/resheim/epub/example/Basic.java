@@ -12,6 +12,7 @@ package no.resheim.epub.example;
 import java.io.File;
 
 import org.eclipse.mylyn.docs.epub.core.EPUB;
+import org.eclipse.mylyn.docs.epub.core.ILogger;
 import org.eclipse.mylyn.docs.epub.core.OPS2Publication;
 import org.eclipse.mylyn.docs.epub.core.OPSPublication;
 
@@ -22,8 +23,20 @@ import org.eclipse.mylyn.docs.epub.core.OPSPublication;
  */
 public class Basic {
 	public static final void main(String[] args) {
-		EPUB epub = new EPUB();
-		// English version
+		EPUB epub = new EPUB(new ILogger(){
+
+			@Override
+			public void log(String message) {
+				System.out.println(message);
+			}
+
+			@Override
+			public void log(String message, Severity severity) {
+				System.out.println(message);
+			}		
+			
+		});
+
 		OPSPublication en = new OPS2Publication();
 		en.addLanguage(null, "en");
 		en.addTitle(null, null, "Halfdan the Black's saga");
@@ -31,7 +44,7 @@ public class Basic {
 		en.setGenerateToc(true);
 		epub.add(en);
 		try {
-			File epubFile = new File("Halfdan.epub");
+			File epubFile = new File("Halfdan_en.epub");
 			epubFile.delete();
 			epub.pack(epubFile);
 		} catch (Exception e) {

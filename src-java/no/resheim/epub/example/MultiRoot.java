@@ -12,6 +12,7 @@ package no.resheim.epub.example;
 import java.io.File;
 
 import org.eclipse.mylyn.docs.epub.core.EPUB;
+import org.eclipse.mylyn.docs.epub.core.ILogger;
 import org.eclipse.mylyn.docs.epub.core.OPS2Publication;
 import org.eclipse.mylyn.docs.epub.core.OPSPublication;
 
@@ -31,7 +32,19 @@ import org.eclipse.mylyn.docs.epub.core.OPSPublication;
  */
 public class MultiRoot {
 	public static final void main(String[] args) {
-		EPUB epub = new EPUB();
+		EPUB epub = new EPUB(new ILogger(){
+
+			@Override
+			public void log(String message) {
+				System.out.println(message);
+			}
+
+			@Override
+			public void log(String message, Severity severity) {
+				System.out.println(message);
+			}		
+			
+		});
 		// English version
 		OPSPublication en = new OPS2Publication();
 		en.addLanguage(null, "en");
