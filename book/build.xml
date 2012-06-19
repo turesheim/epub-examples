@@ -84,8 +84,7 @@
 			<subject>Computing, Eclipse, Mylyn, EPUB</subject>
 			<publisher>Eclipse.Org</publisher>
 			<creator name="Torkild Ulvøy Resheim" fileAs="Resheim, Torkild Ulvøy" role="aut" />
-			<rights>Copyright (c) 2011, 2012 Torkild Ulvøy Resheim. 
-				Licensed under the Eclipse Public License version 1.0</rights>
+			<rights>Copyright (c) 2011, 2012 Torkild Ulvøy Resheim. Licensed under the Eclipse Public License version 1.0</rights>
 			<type>Technical article.</type>
 			<cover image="${basedir}/cover.jpg">Cover page</cover>
 			<item file="${basedir}/title-page.html" />
