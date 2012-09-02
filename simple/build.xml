@@ -48,6 +48,8 @@
 	<target name="build" depends="clean,setup-lib,setup-dev">
 		<epub file="${epubfile}">
 			<title>EPUB Simple Example</title>
+			<creator name="Torkild Ulvøy Resheim" fileAs="Resheim, Torkild Ulvøy" role="aut" />
+			<rights>Copyright (c) 2012 Torkild Ulvøy Resheim. Licensed under the Eclipse Public License version 1.0</rights>
 			<subject>Lorem Ipsum</subject>
 			<item file="${srcdir}/chapter.xhtml" />
 		</epub>

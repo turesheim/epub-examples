@@ -49,6 +49,8 @@
 		<epub file="${epubfile}">
 			<title>EPUB MathML Example</title>
 			<subject>MatML Epub</subject>
+			<creator name="Torkild Ulvøy Resheim" fileAs="Resheim, Torkild Ulvøy" role="aut" />
+			<rights>Copyright (c) 2012 Torkild Ulvøy Resheim. Licensed under the Eclipse Public License version 1.0</rights>
 			<item file="${srcdir}/math.xhtml" />
 		</epub>
 	</target>
