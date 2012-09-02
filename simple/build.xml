@@ -16,7 +16,7 @@
 	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
 	
 	<!-- Location of the EPUB source content -->
-	<property name="srcdir" location="${basedir}/../shared-content"/>
+	<property name="srcdir" location="${basedir}/../content"/>
 
 	<!-- Location of the finished EPUB -->
 	<property name="epubfile" location="EPUB Simple Example.epub"/>

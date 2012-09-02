@@ -40,7 +40,7 @@ public class Basic {
 		OPSPublication en = new OPS2Publication();
 		en.addLanguage(null, "en");
 		en.addTitle(null, null, "Halfdan the Black's saga");
-		en.addItem(new File("halfdan/halfdan_svarte_en.xhtml"));
+		en.addItem(new File("content/halfdan/halfdan_svarte_en.xhtml"));
 		en.setGenerateToc(true);
 		epub.add(en);
 		try {

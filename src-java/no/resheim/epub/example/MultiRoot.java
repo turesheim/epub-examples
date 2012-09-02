@@ -49,21 +49,21 @@ public class MultiRoot {
 		OPSPublication en = new OPS2Publication();
 		en.addLanguage(null, "en");
 		en.addTitle(null, null, "Halfdan the Black's saga");
-		en.addItem(new File("halfdan/halfdan_svarte_en.xhtml"));
+		en.addItem(new File("content/halfdan/halfdan_svarte_en.xhtml"));
 		en.setGenerateToc(true);
 		epub.add(en);
 		// Norwegian version
 		OPSPublication no = new OPS2Publication();
 		no.addLanguage(null, "no");
 		no.addTitle(null, null, "Halfdan Svartes saga");
-		no.addItem(new File("halfdan/halfdan_svarte_no.xhtml"));
+		no.addItem(new File("content/halfdan/halfdan_svarte_no.xhtml"));
 		no.setGenerateToc(true);
 		epub.add(no);
 		// Icelandic version
 		OPSPublication is = new OPS2Publication();
 		is.addLanguage(null, "is");
 		is.addTitle(null, null, "Hálfdanar saga svarta");
-		is.addItem(new File("halfdan/halfdan_svarte_is.xhtml"));
+		is.addItem(new File("content/halfdan/halfdan_svarte_is.xhtml"));
 		is.setGenerateToc(true);
 		epub.add(is);
 		try {
