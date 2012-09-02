@@ -11,6 +11,7 @@ The basic examples can be executed simply by running Ant, others have some depen
 <tr><th>Example</th><th>Description</th></tr>
 <tr><td>simple</td><td>The most basic example</td></tr>
 <tr><td>book</td><td>Builds the EPUB tool documentation as a book. Mylyn Docs must be present.</td></tr>
+<tr><td>w3c-css2.1</td><td>The CCS 2.1 specification (experimental)</td></tr>
 </table>
 
 Mylyn docs can be obtained from the official [Git repository](https://git.eclipse.org/c/mylyn/org.eclipse.mylyn.docs.git/) or from the [GitHub clone](https://github.com/eclipse/mylyn.docs).

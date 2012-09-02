@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Copyright (c) 2012 Torkild U. Resheim and others All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+	and is available at http://www.eclipse.org/legal/epl-v10.html 
+	
+	Contributors: 
+	  Torkild U. Resheim - initial API and implementation 
+-->
+
+<project name="EPUB CSS 2.1 Specification" basedir="." default="build">
+
+	<!-- Location of Mylyn Docs -->
+	<property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
+	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
+
+	<!-- Location of source  -->
+	<property name="srcdir" location="${basedir}/source"/>
+	<available file="${srcdir}/intro.html" type="file" property="src.present"/>
+
+	<!-- Location of the finished EPUB -->
+	<property name="epubfile" location="CSS 2.1 Specification.epub"/>
+
+	<!-- Extra tasks required -->
+	<path id="lib">
+		<fileset dir="${basedir}/../lib/" includes="*.jar"/>
+	</path>
+	<taskdef name="tidy" classname="org.w3c.tidy.ant.JTidyTask" classpathref="lib"/>
+
+	<!-- Load the EPUB task from the library unless Eclipse is running -->
+	<target name="setup-lib" unless="dev.present">
+		<path id="lib-classpath">
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
+	</target>
+
+	<!-- Load the EPUB task from the workspace if Eclipse is running -->
+	<target name="setup-dev" if="dev.present">
+		<path id="dev-classpath">
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
+	</target>
+
+	<!-- Clean out the existing EPUB file if any -->
+	<target name="clean">
+		<delete file="${epubfile}" failonerror="false"/>
+		<delete failonerror="false">
+			<fileset dir="${basedir}/build">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${basedir}/tmp">
+				<include name="**/*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- Download and prepare from the source archive -->
+	<target name="init" unless="src.present">
+		<mkdir dir="${srcdir}"/>
+		<!-- Obtain the archive from W3C -->
+		<get dest="${srcdir}/css2.zip" src="http://www.w3.org/TR/2011/REC-CSS2-20110607/css2.zip" />
+		<unzip dest="${srcdir}" src="${srcdir}/css2.zip" />
+		<!-- Convert the contents to XHTML -->
+		<tidy destdir="${basedir}/tmp">
+			<fileset dir="${srcdir}" casesensitive="yes">
+				<include name="**/*.html" />
+			</fileset>
+			<parameter name="output-xhtml" value="true" />
+			<parameter name="numeric-entities" value="true" />
+			<parameter name="add-xml-decl" value="true" />
+			<parameter name="add-xml-space" value="true" />
+		</tidy>
+		<!-- Remove the navigation bar -->
+		<xslt basedir="${basedir}/tmp" 
+			destdir="${srcdir}"
+			includes="**/*.html"
+			style="${basedir}/clean.xsl"
+			force="true">
+			<outputproperty name="method" value="xml"/>
+			<outputproperty name="standalone" value="yes"/>
+			<outputproperty name="encoding" value="utf-8"/>
+			<outputproperty name="indent" value="yes"/>
+			<xmlcatalog>
+				<dtd
+					publicId="-//W3C//DTD XHTML 1.0 Strict//EN"
+					location="${basedir}/../dtd/xhtml1-strict.dtd"/>
+			</xmlcatalog>
+		</xslt>
+	</target>
+
+	<!-- Build the EPUB -->
+	<target name="build" depends="clean,setup-lib,setup-dev,init">
+		<epub file="${epubfile}" workingfolder="${basedir}/build">
+			<title>CSS 2.1 Specification</title>
+			<subject>Computing, CSS, Internet</subject>
+			<language code="en" />
+			<item file="${srcdir}/cover.html" />
+			<item file="${srcdir}/about.html" />
+			<item file="${srcdir}/intro.html" />
+			<item file="${srcdir}/conform.html" />
+			<item file="${srcdir}/syndata.html" />
+			<item file="${srcdir}/selector.html" />
+			<item file="${srcdir}/cascade.html" />
+			<item file="${srcdir}/media.html" />
+			<item file="${srcdir}/box.html" />
+			<item file="${srcdir}/visuren.html" />
+			<item file="${srcdir}/visudet.html" />
+			<item file="${srcdir}/visufx.html" />
+			<item file="${srcdir}/page.html" />
+			<item file="${srcdir}/colors.html" />
+			<item file="${srcdir}/fonts.html" />
+			<item file="${srcdir}/text.html" />
+			<item file="${srcdir}/tables.html" />
+			<item file="${srcdir}/ui.html" />
+			<item file="${srcdir}/aural.html" />
+			<item file="${srcdir}/refs.html" />
+			<item file="${srcdir}/changes.html" />
+			<item file="${srcdir}/sample.html" />
+			<item file="${srcdir}/zindex.html" />
+			<item file="${srcdir}/propidx.html" />
+			<item file="${srcdir}/grammar.html" />
+			<item file="${srcdir}/indexlist.html" />
+
+			<reference href="cover.html" type="toc" title="Cover" />
+			<reference href="indexlist.html" type="index" title="Index" />
+
+
+			<item file="${srcdir}/style/default.css" dest="style/default.css" type="text/css" spine="false" />
+			<item file="${srcdir}/style/annotate.css" dest="style/annotate.css" type="text/css" spine="false" />
+			<fileset dir="${srcdir}/images" dest="images">
+				<include name="*.png" />
+			</fileset>
+			<fileset dir="${srcdir}/images/longdesc" dest="images/longdesc">
+				<include name="*.*" />
+			</fileset>
+		</epub>
+	</target>
+
+</project>
