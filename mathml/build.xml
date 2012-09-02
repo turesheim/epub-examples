@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Copyright (c) 2012 Torkild U. Resheim and others All rights reserved. 
+	This program and the accompanying materials are made available under the 
+	terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+	and is available at http://www.eclipse.org/legal/epl-v10.html 
+	
+	Contributors: 
+	  Torkild U. Resheim - initial API and implementation 
+-->
+
+<project name="EPUB MathML Example" basedir="." default="build">
+
+	<!-- Location of Mylyn Docs -->
+	<property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
+	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
+
+	<!-- Location of the EPUB source content -->
+	<property name="srcdir" location="${basedir}"/>
+
+	<!-- Location of the finished EPUB -->
+	<property name="epubfile" location="EPUB MathML Example.epub"/>
+
+
+	<!-- Load the EPUB task from the library unless Eclipse is running -->
+	<target name="setup-lib" unless="dev.present">
+		<path id="lib-classpath">
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
+	</target>
+
+	<!-- Load the EPUB task from the workspace if Eclipse is running -->
+	<target name="setup-dev" if="dev.present">
+		<path id="dev-classpath">
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
+			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
+			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
+		</path>
+		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
+	</target>
+
+	<!-- Clean out the existing EPUB file if any -->
+	<target name="clean">
+		<delete file="${epubfile}" failonerror="false"/>
+	</target>
+
+	<target name="build" depends="clean,setup-lib,setup-dev">
+		<epub file="${epubfile}">
+			<title>EPUB MathML Example</title>
+			<subject>MatML Epub</subject>
+			<item file="${srcdir}/math.xhtml" />
+		</epub>
+	</target>
+
+</project>
