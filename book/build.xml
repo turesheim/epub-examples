@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2011,2012 Torkild U. Resheim and others
+    Copyright (c) 2011,2012,2014 Torkild U. Resheim and others
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -14,7 +14,6 @@
 	
 	<!-- Location of Mylyn Docs -->
 	<property name="mylyn-docs" location="${basedir}/../../org.eclipse.mylyn.docs"/>
-	<available file="${mylyn-docs}" type="dir" property="dev.present"/>
 
 	<!-- Location of the EPUB source content -->
 	<property name="srcdir" location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.help/docs" />
@@ -25,42 +24,27 @@
 	<!-- Location of the finished EPUB -->
 	<property name="epubfile" location="Building EPUBs.epub" />
 
-	<path id="classpath">
-		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.core/target/classes"/>
-		<pathelement location="${mylyn-docs}/org.eclipse.mylyn.wikitext.textile.core/target/classes"/>
-	</path>
 
-	<taskdef resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties" classpathref="classpath"/>
-
-	<!-- Load the EPUB task from the library unless Eclipse is running -->
-	<target name="setup-lib" unless="dev.present">
+	<!-- Load the EPUB task from the library -->
+	<target name="setup-lib">
 		<path id="lib-classpath">
 			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
 		</path>
 		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="lib-classpath"/>
-	</target>
-
-	<!-- Load the EPUB task from the workspace if Eclipse is running -->
-	<target name="setup-dev" if="dev.present">
-		<path id="dev-classpath">
-			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.ant.core/bin"/>
-			<pathelement location="${mylyn-docs}/org.eclipse.mylyn.docs.epub.core/bin"/>
-			<fileset dir="${basedir}/../lib/" includes="*.jar"/>
-		</path>
-		<taskdef resource="org/eclipse/mylyn/docs/epub/ant/tasks.properties" classpathref="dev-classpath"/>
+		<taskdef resource="org/eclipse/mylyn/wikitext/core/ant/tasks.properties" classpathref="lib-classpath"/>
 	</target>
 
 	<!-- Clean out the existing EPUB file if any -->
 	<target name="clean">
 		<delete file="${epubfile}" failonerror="false"/>
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${basedir}/build">
 	    	<include name="**/*"/>
 			</fileset>
 		</delete>
 	</target>
 	
-	<target name="init" depends="clean">
+	<target name="init" depends="clean,setup-lib">
 		<!-- Convert the Textile markup to HTML -->
 		<wikitext-to-html markupLanguage="org.eclipse.mylyn.wikitext.textile.core.TextileLanguage" 
 			overwrite="true" xhtmlstrict="true" >
@@ -75,7 +59,7 @@
 	</target>
 
 	<!-- contributor, date -->
-	<target name="plugin-book" depends="init,setup-lib,setup-dev">
+	<target name="plugin-book" depends="init,setup-lib">
 		
 		<epub identifierId="uuid" file="${epubfile}" workingfolder="${basedir}/build">
 			<language code="en" />

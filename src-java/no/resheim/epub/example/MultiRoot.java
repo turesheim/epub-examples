@@ -1,6 +1,6 @@
 package no.resheim.epub.example;
 /*******************************************************************************
- * Copyright (c) 2012 Torkild U. Resheim.
+ * Copyright (c) 2012, 2014 Torkild U. Resheim.
  * 
  * All rights reserved. This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License v1.0 which
@@ -13,7 +13,6 @@ import java.io.File;
 
 import org.eclipse.mylyn.docs.epub.core.EPUB;
 import org.eclipse.mylyn.docs.epub.core.ILogger;
-import org.eclipse.mylyn.docs.epub.core.OPS2Publication;
 import org.eclipse.mylyn.docs.epub.core.OPSPublication;
 
 /**
@@ -46,21 +45,21 @@ public class MultiRoot {
 			
 		});
 		// English version
-		OPSPublication en = new OPS2Publication();
+		OPSPublication en = new OPSPublication();
 		en.addLanguage(null, "en");
 		en.addTitle(null, null, "Halfdan the Black's saga");
 		en.addItem(new File("content/halfdan/halfdan_svarte_en.xhtml"));
 		en.setGenerateToc(true);
 		epub.add(en);
 		// Norwegian version
-		OPSPublication no = new OPS2Publication();
+		OPSPublication no = new OPSPublication();
 		no.addLanguage(null, "no");
 		no.addTitle(null, null, "Halfdan Svartes saga");
 		no.addItem(new File("content/halfdan/halfdan_svarte_no.xhtml"));
 		no.setGenerateToc(true);
 		epub.add(no);
 		// Icelandic version
-		OPSPublication is = new OPS2Publication();
+		OPSPublication is = new OPSPublication();
 		is.addLanguage(null, "is");
 		is.addTitle(null, null, "Hálfdanar saga svarta");
 		is.addItem(new File("content/halfdan/halfdan_svarte_is.xhtml"));

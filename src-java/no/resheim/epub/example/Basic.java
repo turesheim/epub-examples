@@ -1,6 +1,6 @@
 package no.resheim.epub.example;
 /*******************************************************************************
- * Copyright (c) 2012 Torkild U. Resheim.
+ * Copyright (c) 2012, 2014 Torkild U. Resheim.
  * 
  * All rights reserved. This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License v1.0 which
@@ -13,7 +13,6 @@ import java.io.File;
 
 import org.eclipse.mylyn.docs.epub.core.EPUB;
 import org.eclipse.mylyn.docs.epub.core.ILogger;
-import org.eclipse.mylyn.docs.epub.core.OPS2Publication;
 import org.eclipse.mylyn.docs.epub.core.OPSPublication;
 
 /**
@@ -37,7 +36,7 @@ public class Basic {
 			
 		});
 
-		OPSPublication en = new OPS2Publication();
+		OPSPublication en = new OPSPublication();
 		en.addLanguage(null, "en");
 		en.addTitle(null, null, "Halfdan the Black's saga");
 		en.addItem(new File("content/halfdan/halfdan_svarte_en.xhtml"));
